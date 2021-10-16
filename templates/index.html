@@ -1,0 +1,48 @@
+<html>
+	<head>
+		<title>Service checker</title>
+		<link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css">
+	</head>
+	<body>
+		<main class="container">
+			<table>
+				<thead>
+					<tr>
+						<td>
+							Service name
+						</td>
+						<td>
+							State
+						</td>
+					</tr>
+				</thead>
+				<tbody>
+					{{ range . }}
+						<tr>
+							<td>
+								{{ .Name }}
+							</td>
+							{{ if .Result }}
+								<td bgcolor="green" style="color:white">
+									<b>Reachable</b>
+								</td>
+							{{ else }}
+								<td bgcolor="red" style="color:white">
+									<b>Unreachable</b>
+								</td>
+							{{ end }}
+						</tr>
+					{{ else }}
+						<tr>
+							<td>
+								<b>No services defined</b>
+							</td>
+							<td>&nbsp;</td>
+						</tr>
+					{{ end }}
+				</tbody>
+			</table>
+		</main>
+
+	</body>
+</html>
