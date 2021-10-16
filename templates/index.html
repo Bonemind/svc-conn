@@ -5,6 +5,9 @@
 	</head>
 	<body>
 		<main class="container">
+			<div>
+				<h1>{{ .ServiceId }}</h1>
+			</div>
 			<table>
 				<thead>
 					<tr>
@@ -17,7 +20,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					{{ range . }}
+					{{ range .Results }}
 						<tr>
 							<td>
 								{{ .Name }}

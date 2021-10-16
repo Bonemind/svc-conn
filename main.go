@@ -7,11 +7,17 @@ import (
 	"os"
 	"path"
 	"strings"
+	"time"
 )
 
 type ServiceResult struct {
 	Name   string
 	Result bool
+}
+
+type TemplateData struct {
+	ServiceId string
+	Results   []ServiceResult
 }
 
 func main() {
@@ -21,7 +27,12 @@ func main() {
 }
 
 func ServiceStateHandler(w http.ResponseWriter, r *http.Request) {
+	svcId := os.Getenv("SERVICE_ID")
 	domainString := strings.TrimSpace(os.Getenv("SERVICE_DOMAINS"))
+
+	client := http.Client{
+		Timeout: 5 * time.Second,
+	}
 
 	var domains []string
 	if domainString != "" {
@@ -31,7 +42,7 @@ func ServiceStateHandler(w http.ResponseWriter, r *http.Request) {
 	var results []ServiceResult
 
 	for _, d := range domains {
-		_, err := http.Get(d)
+		_, err := client.Get(d)
 		res := ServiceResult{Name: d, Result: true}
 		if err != nil {
 			res.Result = false
@@ -46,7 +57,7 @@ func ServiceStateHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if err := tmpl.Execute(w, results); err != nil {
+	if err := tmpl.Execute(w, TemplateData{ServiceId: svcId, Results: results}); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
 }

@@ -12,13 +12,14 @@ A dead simple go app that will do a request to all domains set in the `SERVICE_D
 
 ```bash
 export SERVICE_DOMAINS="https://google.com,http://nonexistant.service"
+export SERVICE_ID="hello"
 ./svc-conn
 ```
 
 ### Docker
 
 ```bash
-sudo docker run -d -p 7887:7887 -e "SERVICE_DOMAINS=https://google.com,http://nonexistant.service" bonemind/svc-conn
+sudo docker run -d -p 7887:7887 -e "SERVICE_ID=hello" -e "SERVICE_DOMAINS=https://google.com,http://nonexistant.service" bonemind/svc-conn
 ```
 
 
