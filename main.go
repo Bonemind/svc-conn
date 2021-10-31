@@ -21,9 +21,14 @@ type TemplateData struct {
 }
 
 func main() {
+	http.HandleFunc("/ok", OkHandler)
 	http.HandleFunc("/", ServiceStateHandler)
 	fmt.Println("Listening on port 7887")
 	http.ListenAndServe(":7887", nil)
+}
+
+func OkHandler(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusNoContent)
 }
 
 func ServiceStateHandler(w http.ResponseWriter, r *http.Request) {
